@@ -1,0 +1,108 @@
+#include<graphics.h>
+#include<stdlib.h>
+main()
+{
+//declare pages for stores page nos, frames to store frame details
+int pages[10],frames[10][10],ppos[10],fillcount=0,least;
+//no_pstands for no of pages, no_f stands for no of frames
+int i,j,k,m,pos=0;no_p,no_f,faults=0;gd=DETECT,gm,no;
+int x1=20,y1=100;
+float ratio;
+char found, str[30],ch,occur;
+//GRAPHICS initialise method
+initgraph(&gd,&gm,"..//bgi");
+setbkcolor(BLUE);
+puts("Enter no of pages do u have");
+scanf("%d",&no_p);
+puts("Enter no of frames do u have");
+scanf("%d",&no_f);
+//initializing each frame with 0
+for(i=0;i<no_f;i++)
+for(j=0;j<no_p;j++)
+frames[i][j]=0;
+for(i=0;i<no_p;i++)
+{
+puts("Enter page num");
+scanf("%d",&pages[i]);
+cleardevice();
+x1=20,y1=100;
+found='f';
+for(j=0;j<no_f;j++)
+{
+if(i!=0)
+frames[j][i]=frames[j][i-1];
+//checking whether page is there in frames or not
+if(frames[j][i]==pages[i])
+found='t';
+}
+//if PAGE is not there in frames
+if(found=='f')
+{
+faults++;
+fillcount++;
+if(fillcount<=no_f)
+frames[pos][i]=pages[i];
+pos++;
+}
+else
+{
+for(j=0;j<no_f;j++)
+ppos[j]=0;
+for(j=0;j<no_f;j++)
+{
+for(k=0;k<i;k++)
+{
+if(frames[j][i]==pages[k])
+ppos[j]++;
+}
+}
+least=ppos[0];
+for(j=0;j<no_f;j++)
+{
+if(least>ppos[j])
+least=ppos[j];
+}
+ocurs='n';
+for(j=0;j<1&&occur=='n';j++)
+{
+for(k=0;k<no_f;k++)
+{
+if(pages[j]==frames[k][i]&&ppos[k]==least)
+{
+pos=k;
+occur='y';
+}
+}
+}
+frames[pos][i]=pages[i];
+}
+}
+//printing frames each time we enter a no
+settextstyle(2,0,6);
+for(k=0;k<no_f;k++)
+{
+for(j=0;j<=i;j++)
+{
+rectangle(x1,y1,x1+40,y1+45);
+if(frames[k][j]!=0)
+{
+//changing the text color when page is replaced
+if(j==i&&frames[k][j]==pages[i]&&found=='f')
+setcolor(MAGENTA);
+else
+setcolor(WHITE);
+itoa(frames[k][j],str,10);
+outtextxy(x1+15,y1+15,str);
+}
+else
+outtextxy(x1+10,y1+10,"");
+setcolor(WHITE);
+x1+=55;
+}
+y1+=45;
+x1=20;
+}
+}
+//printing page fault ration
+printf("\n\n page fault ration %f",(float)faults/(float)no+p);
+}
