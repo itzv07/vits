@@ -52,6 +52,7 @@ PROGRAM FOR CYCLIC REDUNDENCY CHECK
 #include<stdio.h>
 #include<conio.h>
 int gen[4],genl,frl,rem[4];
+void remainder(int []);
 void main()
 {
 int i,j,fr[8],dupfr[11],recfr[11],tlen,flag;
